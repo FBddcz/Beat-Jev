@@ -139,8 +139,15 @@ function updateWaiting(game) {
   waiting.className = 'waiting';
   retry.hidden = true;
   if (game.phase === 'preparing') {
-    waiting.classList.add('loading');
-    $('#waiting-text').textContent = game.mode === 'jev' ? 'Jev 正在锁定方向…' : '本地机器人正在锁定方向…';
+    // Between rounds, keep the controls calm and visible instead of showing a
+    // blocking spinner for model latency. The initial load may still spin.
+    if (game.history.length) {
+      waiting.classList.add('between-rounds');
+      $('#waiting-text').textContent = '下一回合马上开始…';
+    } else {
+      waiting.classList.add('loading');
+      $('#waiting-text').textContent = game.mode === 'jev' ? 'Jev 正在锁定方向…' : '本地机器人正在锁定方向…';
+    }
   } else if (game.phase === 'ready') {
     waiting.classList.add('ready');
     $('#waiting-text').textContent = game.role === 'evader' ? '对手已经锁定，选一边躲开。' : 'Jev 已经藏好，猜猜在哪一边。';

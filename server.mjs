@@ -50,7 +50,12 @@ export function createApp({fetcher=fetch,defaultKey='',defaultModel='jev-latest'
       let body;try{body=JSON.parse(raw);}catch{throw new Error('请求格式无效。');}if(!body||typeof body!=='object'||Array.isArray(body))throw new Error('请求格式无效。');
       if(url.pathname==='/api/game'){
         if(body.mode==='jev'&&!session.configuration)throw new Error('请先连接 Jev，或选择本地练习。');
-        const game=createGame(body.mode);session.controller?.abort();session.preparing=null;session.game=game;if(game.mode==='practice')await prepare(session);else void prepare(session);return send(res,200,state());
+        const game=createGame(body.mode);session.controller?.abort();session.preparing=null;session.game=game;
+        // The first round needs a decision before the buttons become usable.
+        // Practice mode resolves synchronously; Jev mode loads in the
+        // background and the client polls until its commitment is ready.
+        if(game.mode==='practice')await prepare(session);else void prepare(session);
+        return send(res,200,state());
       }
       if(url.pathname==='/api/prepare'){
         if(!session.game||body.gameId!==session.game.id||body.round!==session.game.round)throw new Error('对局或回合已更新，请刷新。');
@@ -59,8 +64,11 @@ export function createApp({fetcher=fetch,defaultKey='',defaultModel='jev-latest'
       if(url.pathname==='/api/choice'){
         const game=session.game;if(!game||body.gameId!==game.id)throw new Error('对局已切换，请刷新。');
         const result=playRound(game,body);
-        // Start the next decision while the client plays this round's reveal animation.
-        if(game.mode==='practice')await prepare(session);else void prepare(session);return send(res,200,{...state(),result});
+        // Start the next decision while the client plays this round's reveal
+        // animation. Never hold the choice request open for model latency: the
+        // client can show the result immediately and poll for the next round.
+        void prepare(session);
+        return send(res,200,{...state(),result});
       }
       if(url.pathname==='/api/connection'||url.pathname==='/api/connection/test'){
         if(session.testing)return send(res,409,{error:'连接测试正在进行，请稍候。'});
@@ -79,4 +87,4 @@ export function createApp({fetcher=fetch,defaultKey='',defaultModel='jev-latest'
   });
   server.on('close',()=>{for(const session of sessions.values())session.controller?.abort();});return server;
 }
-if(process.argv[1]===fileURLToPath(import.meta.url)){const port=Number(process.env.PORT||8791);const host=process.env.HOST||'127.0.0.1';const allowedHosts=(process.env.ALLOWED_HOSTS||'127.0.0.1,localhost,[::1]').split(',').map((item)=>item.trim()).filter(Boolean);createApp({defaultKey:process.env.TYPESAFE_API_KEY||'',defaultModel:process.env.JEV_MODEL||'jev-latest',allowedHosts}).listen(port,host,()=>console.log(`Beat Jev · 打败 Jev → http://${host}:${port}`));}
+if(process.argv[1]===fileURLToPath(import.meta.url)){const port=Number(process.env.PORT||8791);const host=process.env.HOST||'127.0.0.1';const allowedHosts=(process.env.ALLOWED_HOSTS||'127.0.0.1,localhost,[::1]').split(',').concat(process.env.RENDER_EXTERNAL_HOSTNAME||'').map((item)=>item.trim()).filter(Boolean);createApp({defaultKey:process.env.TYPESAFE_API_KEY||'',defaultModel:process.env.JEV_MODEL||'jev-latest',allowedHosts}).listen(port,host,()=>console.log(`Beat Jev · 打败 Jev → http://${host}:${port}`));}

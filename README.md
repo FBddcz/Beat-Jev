@@ -2,7 +2,7 @@
 
 > 一次点击，一次读心。你能把 Jev 甩开多久？ 🐈‍⬛🎯
 
-[![Live game](https://img.shields.io/badge/Play-online-Beat%20Jev-B06E52?style=for-the-badge)](https://github.com/FBddcz/Beat-Jev)
+[![Source](https://img.shields.io/badge/source-Beat_Jev-B06E52?style=for-the-badge)](https://github.com/FBddcz/Beat-Jev)
 [![Node](https://img.shields.io/badge/Node.js-22%2B-25332F?style=flat-square&logo=node.js)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/license-MIT-708D73?style=flat-square)](./LICENSE)
 [![Mobile](https://img.shields.io/badge/mobile-PWA-E7B47B?style=flat-square)](./docs/platform-publishing.md)
@@ -45,42 +45,12 @@ ALLOWED_HOSTS=your-domain.example
 
 Key 不会写入前端静态文件；生产环境请使用 HTTPS，并把 `ALLOWED_HOSTS` 限制为实际域名。
 
-## 🚀 自己部署
-
-### Render（推荐，免费档可用）
-
-1. Fork 或导入本仓库。
-2. 在 Render 选择 **New → Blueprint**，它会读取 [`render.yaml`](./render.yaml)。
-3. 把 `ALLOWED_HOSTS` 填为 Render 分配的域名，部署完成后用手机打开 HTTPS 地址。
-
-### Docker / 自有服务器
-
-```bash
-docker build -t beat-jev .
-docker run --rm -p 8791:8791 \
-  -e ALLOWED_HOSTS=localhost \
-  beat-jev
-```
-
-也可以直接在 Node 22+ 环境运行 `npm install && npm start`。Railway、Fly.io 和任何支持 Node 的 VPS 都适用同一套命令。
-
-### 手机添加到主屏幕
-
-部署后用 Safari 或 Chrome 打开 HTTPS 地址，选择“添加到主屏幕”。PWA manifest 已内置；微信、抖音等平台若需要小游戏包，见 [`docs/platform-publishing.md`](./docs/platform-publishing.md)。
-
 ## 🧪 开发与检查
 
 ```bash
 npm test
 npm run check
 ```
-
-## 📣 宣发素材
-
-完整的小红书标题、正文、话题和配图顺序在 [`docs/xhs-copy.md`](./docs/xhs-copy.md)。可以直接使用：
-
-> 一款真的会让人一直点的小游戏：**Beat Jev** 🎯  
-> 左还是右？每回合只点一次，看看你能不能连续骗过 Jev。
 
 ## 🗺️ 项目路线
 

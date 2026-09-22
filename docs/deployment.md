@@ -6,10 +6,15 @@ GitHub 仓库是代码地址，不是游戏入口。手机直接玩，需要把 
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/FBddcz/Beat-Jev)
 
-1. 打开上面的按钮，使用 Render 账号授权读取 `FBddcz/Beat-Jev`。
-2. Render 会读取 [`render.yaml`](../render.yaml)，创建 `beat-jev` Web Service。
-3. 等待构建完成，Render 会生成类似 `https://beat-jev-xxxx.onrender.com` 的地址。
-4. 把这个 HTTPS 地址发给手机用户；Safari 或 Chrome 打开后，可以选择“添加到主屏幕”。
+这是“部署入口”，不是最终的游戏页。第一次需要用 Render 账号授权读取 GitHub 仓库；完成后以后只分享 Render 生成的游戏地址即可。
+
+1. 在手机或电脑打开上面的 **Deploy to Render** 按钮。
+2. 登录 Render，确认仓库为 `FBddcz/Beat-Jev`，直接点击 **Apply / Deploy**。
+3. 等待构建完成，Render 会生成类似 `https://beat-jev-xxxx.onrender.com` 的 **Play URL**。
+4. 复制这个 Play URL 发给手机；手机浏览器打开即可玩，不需要登录 GitHub。
+5. 想像 App 一样使用时，在 Safari 选择“添加到主屏幕”，或在 Chrome 菜单中选择“添加到主屏幕”。
+
+手机玩家以后只需要第 3 步生成的 Play URL；不要把 GitHub 仓库地址当作游戏地址。
 
 Render 免费服务长时间无人访问时可能休眠，第一次打开会有几十秒唤醒时间。练习模式不需要配置 Jev Key；要开放 Jev 对战，再在 Render 的 Environment 中配置 `TYPESAFE_API_KEY` 和 `JEV_MODEL`。
 

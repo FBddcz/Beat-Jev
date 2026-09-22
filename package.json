@@ -1,0 +1,13 @@
+{
+  "name": "beat-jev",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.12" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "dev": "node --watch --env-file-if-exists=.env server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check server.mjs && node --check game.mjs && node --check jev.mjs && node --check public/app.js && node --check public/art.js"
+  }
+}

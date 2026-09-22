@@ -1,0 +1,12 @@
+{
+  "name": "Beat Jev · 打败 Jev",
+  "short_name": "Beat Jev",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f2e9",
+  "theme_color": "#f4f0e8",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

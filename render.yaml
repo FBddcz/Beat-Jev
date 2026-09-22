@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: beat-jev
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: ALLOWED_HOSTS
+        sync: false
+      - key: JEV_MODEL
+        value: jev-latest
